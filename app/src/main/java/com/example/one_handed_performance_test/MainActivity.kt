@@ -204,4 +204,8 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
         private const val NS2S = 1.0f / 1000000000.0f
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        buttons.release()
+    }
 }

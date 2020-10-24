@@ -54,5 +54,11 @@
         android:layout_height="wrap_content"
         android:text="This is z" />
 
+    <com.example.one_handed_performance_test.ButtonArray
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
+
+    
 </LinearLayout>
