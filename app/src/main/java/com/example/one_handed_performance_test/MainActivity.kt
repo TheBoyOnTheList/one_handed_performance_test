@@ -2,11 +2,9 @@ package com.example.one_handed_performance_test
 
 import android.os.Bundle
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.example.one_handed_performance_test.R.id.buttons
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -29,7 +27,6 @@ class MainActivity : AppCompatActivity(){
             params1.height = (params1.height*1.1).toInt()
             params1.width =  (params1.width*1.1).toInt()
             layout1.layoutParams = params1
-            val changeHeight:Int = params1.height/3
         }
 
         narrow.setOnClickListener{
@@ -44,7 +41,6 @@ class MainActivity : AppCompatActivity(){
             params3.height = (params3.height*0.9).toInt()
             params3.width =  (params3.width*0.9).toInt()
             layout3.layoutParams = params3
-            val changeHeight:Int = params3.height/3
         }
     }
 
