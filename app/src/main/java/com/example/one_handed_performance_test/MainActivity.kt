@@ -30,25 +30,6 @@ class MainActivity : AppCompatActivity(){
             params1.width =  (params1.width*1.1).toInt()
             layout1.layoutParams = params1
             val changeHeight:Int = params1.height/3
-
-            var temp:Button = findViewById(R.id.b1)
-            temp.height = changeHeight
-            temp = findViewById(R.id.b2)
-            temp.height = changeHeight
-            temp = findViewById(R.id.b3)
-            temp.height = changeHeight
-            temp = findViewById(R.id.b4)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_0)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_1)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_2)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_3)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_4)
-            temp.height = changeHeight
         }
 
         narrow.setOnClickListener{
@@ -64,31 +45,12 @@ class MainActivity : AppCompatActivity(){
             params3.width =  (params3.width*0.9).toInt()
             layout3.layoutParams = params3
             val changeHeight:Int = params3.height/3
-
-            var temp:Button = findViewById(R.id.b1)
-            temp.height = changeHeight
-            temp = findViewById(R.id.b2)
-            temp.height = changeHeight
-            temp = findViewById(R.id.b3)
-            temp.height = changeHeight
-            temp = findViewById(R.id.b4)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_0)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_1)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_2)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_3)
-            temp.height = changeHeight
-            temp = findViewById(R.id.button_4)
-            temp.height = changeHeight
         }
     }
 
 
-    /*override fun onDestroy() {
+    override fun onDestroy() {
         super.onDestroy()
         buttons.release()
-    }*/
+    }
 }
