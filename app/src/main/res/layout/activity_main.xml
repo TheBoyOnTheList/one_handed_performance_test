@@ -1,33 +1,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <!--放大按键-->
     <Button
         android:id="@+id/enlarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+"/>
+        android:text="+" />
 
     <!--缩小按键-->
     <Button
         android:id="@+id/narrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="-"/>
+        android:text="-" />
+
+    <!--向右-->
+    <Button
+        android:id="@+id/right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="->" />
+
+    <!--向下-->
+    <Button
+        android:id="@+id/down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="👇" />
 
     <RelativeLayout
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:id="@+id/object"
-        android:background="#E6E6FA">
+        android:background="#E6E6FA"
+        >
 
         <com.example.one_handed_performance_test.ButtonArray
             android:id="@+id/buttons"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            />
 
     </RelativeLayout>
-    
+
 </LinearLayout>
