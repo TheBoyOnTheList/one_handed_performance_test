@@ -1,8 +1,6 @@
 package com.example.one_handed_performance_test
 
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,7 +45,6 @@ class MainActivity : AppCompatActivity(){
             layout.translationY=layout.translationY+100;//针对top(不知道是那个top)，单位pixel
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
