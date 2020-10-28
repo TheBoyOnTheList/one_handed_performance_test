@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:text="-" />
 
+    <![CDATA[
     <!--向右-->
     <Button
         android:id="@+id/right"
@@ -31,6 +32,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="👇" />
+    ]]>
+
+    <!--设置放缩中心左上-->
+    <Button
+        android:id="@+id/leftUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="放缩中心-左上" />
+
+    <!--设置放缩中心右下-->
+    <Button
+        android:id="@+id/rightDown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="放缩中心-右下" />
 
     <RelativeLayout
         android:layout_width="300dp"
