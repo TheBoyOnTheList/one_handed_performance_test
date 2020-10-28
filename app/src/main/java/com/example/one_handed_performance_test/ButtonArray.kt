@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.button_array.view.*
 class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs){
     private val errorAudioPlayer = MediaPlayer()//播放音频对象
     private val rightAudioPlayer = MediaPlayer()
+    private var error = 0
+
     init {
         LayoutInflater.from(context).inflate(R.layout.button_array, this)
         Log.d("createButtons", "here1")
@@ -35,6 +37,7 @@ class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context,
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_red)
                 errorAudioPlayer.start()
+                error++
             }
         }
     }
@@ -47,10 +50,13 @@ class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context,
         rightAudioPlayer.setDataSource(right.fileDescriptor, right.startOffset, right.length)
         rightAudioPlayer.prepare()
     }
+
     fun release() {
         errorAudioPlayer.stop()
         errorAudioPlayer.release()
         rightAudioPlayer.stop()
         rightAudioPlayer.release()
     }
+
+    fun getError() = error
 }
