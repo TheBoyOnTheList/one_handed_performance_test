@@ -9,12 +9,15 @@ import kotlinx.android.synthetic.main.activity_play.*
 import kotlin.concurrent.thread
 
 class PlayActivity : AppCompatActivity() {
-
+    private var flag = true
     private val refresh = 1
     val handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                refresh -> changeableLayout.refresh()
+                refresh -> {
+                    changeableLayout.refresh()
+                    flag = false
+                }
             }
         }
     }
@@ -22,18 +25,17 @@ class PlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play)
-        for (x in 1..4) {
-            thread {
-                if(x==2)Thread.sleep(5000)
+        thread {
+            while (true) {
                 while (true) {
                     if (changeableLayout.isClickTheTarget()) {
                         break
                     }
                 }
-                Log.d("hello", "${changeableLayout.isClickTheTarget()}")
                 val msg = Message()
                 msg.what = refresh
                 handler.sendMessage(msg)
+                while (flag) {}
             }
         }
     }

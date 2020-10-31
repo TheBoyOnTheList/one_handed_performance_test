@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.button_array.view.*
 import com.example.one_handed_performance_test.MainActivity.Companion.to//计数
 import com.example.one_handed_performance_test.MainActivity.Companion.zc
 import com.example.one_handed_performance_test.MainActivity.Companion.cm
+import kotlinx.android.synthetic.main.activity_play.view.*
 
 class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs){
     private val errorAudioPlayer = MediaPlayer()//播放音频对象
