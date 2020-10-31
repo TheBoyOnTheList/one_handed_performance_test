@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/buttons"
+    android:layout_width="50dp"
+    android:layout_height="50dp">
 
     <LinearLayout
         android:id="@+id/buttonArr0"
@@ -57,6 +58,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
+            android:focusable="false"
             android:background="@drawable/shape_circle_blue"/>
 
         <Button
