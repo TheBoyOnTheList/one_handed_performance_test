@@ -26,7 +26,7 @@ class PlayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play)
         thread {
-            while (true) {
+            while(true) {
                 while (true) {
                     if (changeableLayout.isClickTheTarget()) {
                         break

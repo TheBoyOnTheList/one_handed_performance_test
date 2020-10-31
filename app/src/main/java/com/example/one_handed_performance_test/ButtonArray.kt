@@ -12,6 +12,13 @@ import kotlinx.android.synthetic.main.button_array.view.*
 import com.example.one_handed_performance_test.MainActivity.Companion.to//计数
 import com.example.one_handed_performance_test.MainActivity.Companion.zc
 import com.example.one_handed_performance_test.MainActivity.Companion.cm
+import com.example.one_handed_performance_test.MainActivity.Companion.block
+import com.example.one_handed_performance_test.MainActivity.Companion.toOpr
+import com.example.one_handed_performance_test.MainActivity.Companion.zcOpr
+import com.example.one_handed_performance_test.MainActivity.Companion.cmOpr
+import com.example.one_handed_performance_test.MainActivity.Companion.TO
+import com.example.one_handed_performance_test.MainActivity.Companion.ZC
+import com.example.one_handed_performance_test.MainActivity.Companion.CM
 import kotlinx.android.synthetic.main.activity_play.view.*
 
 class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs){
@@ -37,6 +44,7 @@ class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context,
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_green)
                 rightAudioPlayer.start()
+
                 cm++
                 if(cm==2){
                     cm=0
@@ -46,8 +54,17 @@ class ButtonArray(context: Context, attrs: AttributeSet) : LinearLayout(context,
                     zc=0
                     to++
                 }
-                if(to==4&&zc==5&&cm==2)
-                    Toast.makeText(context, "finished!", Toast.LENGTH_SHORT).show()
+                if(to==4){
+                    to=0
+                    block++
+                }
+                if(block==3&&to==4&&zc==5&&cm==2)
+                    Toast.makeText(context, "This is the last one!", Toast.LENGTH_SHORT).show()
+
+                toOpr = TO[to]
+                zcOpr = ZC[zc]
+                cmOpr = CM[cm]
+
                 clickTheTarget = true
             }
         }
