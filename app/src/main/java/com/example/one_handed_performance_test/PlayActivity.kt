@@ -26,18 +26,20 @@ class PlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play)
-//        thread {
-//            for (x in 1..9) {
-//                while (true) {
-//                    if (changeableLayout.isClickTheTarget()) {
-//                        break
-//                    }
-//                }
-//                val msg = Message()
-//                msg.what = refresh
-//                handler.sendMessage(msg)
-//                while (flag) {}
-//            }
-//        }
+
+
+        thread {
+            while(true) {
+                while (true) {
+                    if (changeableLayout.isClickTheTarget()) {
+                        break
+                    }
+                }
+                val msg = Message()
+                msg.what = refresh
+                handler.sendMessage(msg)
+                while (flag) {}
+            }
+        }
     }
 }
