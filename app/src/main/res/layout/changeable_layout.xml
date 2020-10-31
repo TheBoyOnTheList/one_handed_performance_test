@@ -5,9 +5,6 @@
     android:translationX="10dp"
     android:translationY="10dp">
 
-    <com.example.one_handed_performance_test.ButtonArray
-        android:id="@+id/buttons"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+    <include layout="@layout/button_array"/>
 
 </RelativeLayout>

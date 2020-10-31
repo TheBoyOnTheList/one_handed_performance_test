@@ -2,20 +2,86 @@ package com.example.one_handed_performance_test
 
 import android.content.Context
 import android.content.res.Resources
+import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import kotlinx.android.synthetic.main.changeable_layout.view.*
+import android.widget.Toast
+import kotlinx.android.synthetic.main.button_array.view.*
 
 class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(context, attrs) {
+    private val errorAudioPlayer = MediaPlayer()//播放音频对象
+    private val rightAudioPlayer = MediaPlayer()
+    private var error = 0
+    private var buttonList: List<Button>
     init {
         LayoutInflater.from(context).inflate(R.layout.changeable_layout, this)
+        initMediaPlayer()
+        buttonList = listOf(button_0, button_1, button_2, button_3, button_4)
+        setButtonListener()
     }
-    fun isClickTheTarget(): Boolean {
-        return buttons.getClickTheTarget()
+    private fun setButtonListener() {
+        for (bt in buttonList) {
+            setEachButtonListener(bt)
+        }
     }
-    fun refresh() {
+    private fun setEachButtonListener(bt: Button) {
+        if (bt == button_2) {
+            bt.setOnClickListener {
+                bt.setBackgroundResource(R.drawable.shape_circle_green)
+                rightAudioPlayer.start()
+                MainActivity.cm++
+                if(MainActivity.cm ==2){
+                    MainActivity.cm =0
+                    MainActivity.zc++
+                }
+                if(MainActivity.zc ==5){
+                    MainActivity.zc =0
+                    MainActivity.to++
+                }
+                if(MainActivity.to ==4&& MainActivity.zc ==5&& MainActivity.cm ==2)
+                    Toast.makeText(context, "finished!", Toast.LENGTH_SHORT).show()
+                layoutRefresh()
+            }
+        }
+        else {
+            bt.setOnClickListener {
+                bt.setBackgroundResource(R.drawable.shape_circle_red)
+                errorAudioPlayer.start()
+                error++
+            }
+        }
+    }
+
+    private fun initMediaPlayer() {
+        val assetManager = context.assets
+        val error = assetManager.openFd("error.mp3")
+        val right = assetManager.openFd("right.mp3")
+        errorAudioPlayer.setDataSource(error.fileDescriptor, error.startOffset, error.length)
+        errorAudioPlayer.prepare()
+        rightAudioPlayer.setDataSource(right.fileDescriptor, right.startOffset, right.length)
+        rightAudioPlayer.prepare()
+    }
+
+    fun buttonsRefresh() {
+        for (bt in buttonList) {
+            if (bt == button_2)
+                bt.setBackgroundResource(R.drawable.shape_circle_blue)
+            else
+                bt.setBackgroundResource(R.drawable.shape_circle_grey)
+        }
+    }
+
+    fun release() {
+        errorAudioPlayer.stop()
+        errorAudioPlayer.release()
+        rightAudioPlayer.stop()
+        rightAudioPlayer.release()
+    }
+
+    fun layoutRefresh() {
         this.translationX = 10f
         this.translationY = 10f
         val layoutButtons: LinearLayout = findViewById(R.id.buttons)//重新设置按钮的相对位置
@@ -41,8 +107,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                 paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
             }
         }
-        buttons.refresh()
         layoutButtons.layoutParams=paramsButtons//重绘
+        buttonsRefresh()
     }
     private fun Int.toPx():Int=(this* Resources.getSystem().displayMetrics.density).toInt()
 }
