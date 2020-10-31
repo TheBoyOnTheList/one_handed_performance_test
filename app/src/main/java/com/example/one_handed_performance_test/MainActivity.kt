@@ -7,14 +7,17 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.Context
+import kotlinx.android.synthetic.main.button_array.*
 
 
 class MainActivity : AppCompatActivity(){
-    
-    private var x=0
-    private var y=0
-    private var z=0
+
+    companion object{
+        var to=0
+        var zc=0
+        var cm=0
+        val arr = arrayOf(1, 2, 3)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,19 +28,6 @@ class MainActivity : AppCompatActivity(){
 //
 //            layout.scaleX=(layout.scaleX)*1.1F//大小
 //            layout.scaleY=(layout.scaleY)*1.1F
-
-            z++
-            if(z==2){
-                z=0
-                y++
-            }
-            if(y==5){
-                y=0
-                x++
-            }
-            if(x==4&&y==5&&z==2)println("finished")
-
-            //全局变量to=a[x],zc=b[y],cm=c[z]，其中的数字随机，数字确定操作
 
             val n = (1..9).random()
             refresh(n)
@@ -86,16 +76,23 @@ class MainActivity : AppCompatActivity(){
             layout.pivotY=newY
         }*/
 
+        val n = (1..9).random()
+        refresh(n)
     }
 
-    private fun Int.toPx():Int=(this* Resources.getSystem().displayMetrics.density).toInt() //px转dp
+    override fun onDestroy() {
+        super.onDestroy()
+        buttons.release()
+    }
 
-    private fun refresh(kind : Int) {//缩放布局的刷新和按钮的随机
+    fun refresh(kind : Int) {//缩放布局的刷新和按钮的随机
+
         val parentLayout: LinearLayout = findViewById(R.id.parent)//父布局
         val oldLayout: RelativeLayout = findViewById(R.id.`object`)//控件
         parentLayout.removeView(oldLayout)//移除父布局中的旧控件
 
-        val objectXml =layoutInflater.inflate(R.layout.`object`, null, false)//从文件中获取原始控件数据
+
+        val objectXml = layoutInflater.inflate(R.layout.`object`, null, false)//从文件中获取原始控件数据
         parentLayout.addView(objectXml)//此处注意，布局最外层控件的长宽不会被设置，需要手动设置
 
         val newLayout: RelativeLayout = findViewById(R.id.`object`)//刷新后的控件
@@ -129,11 +126,8 @@ class MainActivity : AppCompatActivity(){
         }
 
         layoutButtons.layoutParams=paramsButtons//重绘
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        buttons.release()
-    }
+    fun Int.toPx():Int=(this* Resources.getSystem().displayMetrics.density).toInt() //px转dp
+
 }
