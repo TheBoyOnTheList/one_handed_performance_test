@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.button_array.view.*
 class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(context, attrs) {
     private val errorAudioPlayer = MediaPlayer()//播放音频对象
     private val rightAudioPlayer = MediaPlayer()
-    private var error = 0
     private var buttonList: List<Button>
     init {
         LayoutInflater.from(context).inflate(R.layout.changeable_layout, this)
@@ -50,7 +49,6 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_red)
                 errorAudioPlayer.start()
-                error++
             }
         }
     }
