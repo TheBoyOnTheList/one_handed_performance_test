@@ -1,14 +1,12 @@
 package com.example.one_handed_performance_test
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import kotlinx.android.synthetic.main.button_array.view.*
 
 class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(context, attrs) {
@@ -30,12 +28,17 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
     }
 
     //设置按钮的点击事件
+    @SuppressLint("SetTextI18n")
     private fun setEachButtonListener(bt: Button) {
         if (bt == button_2) {
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_green)
                 rightAudioPlayer.start()
-                MainActivity.cm++
+                MainActivity.select++
+                if (MainActivity.select==16){
+                    MainActivity.select=0
+                    MainActivity.cm++
+                }
                 if(MainActivity.cm ==2){
                     MainActivity.cm =0
                     MainActivity.zc++
@@ -48,8 +51,13 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                     MainActivity.to=0
                     MainActivity.block++
                 }
-                if(MainActivity.block==3&&MainActivity.to ==4&& MainActivity.zc ==5&& MainActivity.cm ==2)
+                if(MainActivity.block==2&&MainActivity.to ==3&& MainActivity.zc ==4&& MainActivity.cm ==1)
                     Toast.makeText(context, "This is the last ont!", Toast.LENGTH_SHORT).show()
+
+                MainActivity.toOpr = MainActivity.TO[MainActivity.to]
+                MainActivity.zcOpr = MainActivity.ZC[MainActivity.zc]
+                MainActivity.cmOpr = MainActivity.CM[MainActivity.cm]
+
                 layoutRefresh()
             }
         }
@@ -84,8 +92,14 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
 
     //刷新布局位置，同时改变按钮方位
     fun layoutRefresh() {
-//        this.translationX = 10f.toPxFloat()
-//        this.translationY = 10f.toPxFloat()
+        val layout: RelativeLayout = findViewById(R.id.changeableLayout)//刷新后的控件
+        val paramsObject = layout.layoutParams
+        paramsObject.height=310.toPxInt()
+        paramsObject.width=310.toPxInt()
+        layout.layoutParams=paramsObject
+        layout.translationX = 10F.toPxFloat()
+        layout.translationY = 10F.toPxFloat()
+
         val layoutButtons: LinearLayout = findViewById(R.id.buttons)//重新设置按钮的相对位置
         val paramsButtons: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(50.toPxInt(),50.toPxInt())
         val kind = (1..9).random()
