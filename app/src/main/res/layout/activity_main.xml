@@ -5,67 +5,6 @@
     android:id="@+id/parent"
     >
 
-    <!--放大按键
-    <Button
-        android:id="@+id/enlarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+" />
-
-    缩小按键
-    <Button
-        android:id="@+id/narrow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="-" />-->
-
-    <![CDATA[
-    <!--向右-->
-    <Button
-        android:id="@+id/right"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="->" />
-
-    <!--向下-->
-    <Button
-        android:id="@+id/down"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="👇" />
-
-    <!--设置放缩中心左上-->
-    <Button
-        android:id="@+id/leftUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="放缩中心-左上" />
-
-    <!--设置放缩中心右下-->
-    <Button
-        android:id="@+id/rightDown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="放缩中心-右下" />
-    ]]>
-
-<!--    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:id="@+id/object"
-        android:background="#E6E6FA"
-        android:translationX="10dp"
-        android:translationY="10dp"
-        >
-
-        <com.example.one_handed_performance_test.ButtonArray
-            android:id="@+id/buttons"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            />
-
-    </RelativeLayout>-->
-
     <Button
         android:id="@+id/startPlayActivity"
         android:layout_width="wrap_content"

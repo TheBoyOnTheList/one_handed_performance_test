@@ -44,8 +44,12 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                     MainActivity.zc =0
                     MainActivity.to++
                 }
-                if(MainActivity.to ==4&& MainActivity.zc ==5&& MainActivity.cm ==2)
-                    Toast.makeText(context, "finished!", Toast.LENGTH_SHORT).show()
+                if(MainActivity.to==4){
+                    MainActivity.to=0
+                    MainActivity.block++
+                }
+                if(MainActivity.block==3&&MainActivity.to ==4&& MainActivity.zc ==5&& MainActivity.cm ==2)
+                    Toast.makeText(context, "This is the last ont!", Toast.LENGTH_SHORT).show()
                 layoutRefresh()
             }
         }
@@ -80,10 +84,10 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
 
     //刷新布局位置，同时改变按钮方位
     fun layoutRefresh() {
-        this.translationX = 10f
-        this.translationY = 10f
+//        this.translationX = 10f.toPxFloat()
+//        this.translationY = 10f.toPxFloat()
         val layoutButtons: LinearLayout = findViewById(R.id.buttons)//重新设置按钮的相对位置
-        val paramsButtons: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(50.toPx(),50.toPx())
+        val paramsButtons: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(50.toPxInt(),50.toPxInt())
         val kind = (1..9).random()
         when(kind){//选择按钮更新位置
             1 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_LEFT)//左上角
@@ -109,7 +113,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         buttonsRefresh()
     }
 
-    private fun Int.toPx():Int=(this* Resources.getSystem().displayMetrics.density).toInt()
+    private fun Int.toPxInt():Int=(this* Resources.getSystem().displayMetrics.density).toInt()
+    private fun Float.toPxFloat():Float=(this* Resources.getSystem().displayMetrics.density).toFloat()
 
     //设置布局的位置
     fun setLocation(x: Float, y:Float) {
