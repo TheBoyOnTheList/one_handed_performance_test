@@ -5,8 +5,8 @@
 
     <com.example.one_handed_performance_test.ChangeableLayout
         android:id="@+id/changeableLayout"
-        android:layout_width="300dp"
-        android:layout_height="300dp"/>
+        android:layout_width="310dp"
+        android:layout_height="310dp"/>
 
     <TextView
         android:layout_width="match_parent"
