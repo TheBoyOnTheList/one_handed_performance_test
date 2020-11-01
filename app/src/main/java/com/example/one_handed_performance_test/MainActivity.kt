@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity(){
         Collections.shuffle(ZC)
         Collections.shuffle(CM)
 
+        toOpr = TO[0]
+        zcOpr = ZC[0]
+        cmOpr = CM[0]
+
     }
 
     override fun onDestroy() {
