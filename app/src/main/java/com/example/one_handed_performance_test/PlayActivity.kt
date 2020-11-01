@@ -36,6 +36,7 @@ class PlayActivity : AppCompatActivity() {
                     finish()
                     startActivity(intent)
                 }
+                Thread.sleep(100)
             }
         }
 
