@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(){
         var zcOpr = 0
         var cmOpr = 0
 
-        var TO: List<Int> = mutableListOf(1,2,3,4)//按照次序以此为，前后，左右，左上右下，右上左下
+        var TO: List<Int> = mutableListOf(1,2,4,3)//按照次序以此为，前后，左右，左上右下，右上左下
         var ZC: List<Int> = mutableListOf(1,2,3,4,5)//触点，触点上，触点下，触点外，中心点
         var CM: List<Int> = mutableListOf(1,2)//绝对映射，速率映射
 
