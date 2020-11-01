@@ -14,18 +14,22 @@ import kotlinx.android.synthetic.main.button_array.view.*
 class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(context, attrs) {
     private val errorAudioPlayer = MediaPlayer()//播放音频对象
     private val rightAudioPlayer = MediaPlayer()
-    private var buttonList: List<Button>
+    private var buttonList: List<Button>//按钮列表
     init {
         LayoutInflater.from(context).inflate(R.layout.changeable_layout, this)
         initMediaPlayer()
         buttonList = listOf(button_0, button_1, button_2, button_3, button_4)
         setButtonListener()
     }
+
+    //设置每个按钮的点击事件
     private fun setButtonListener() {
         for (bt in buttonList) {
             setEachButtonListener(bt)
         }
     }
+
+    //设置按钮的点击事件
     private fun setEachButtonListener(bt: Button) {
         if (bt == button_2) {
             bt.setOnClickListener {
@@ -53,6 +57,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         }
     }
 
+    //初始化音频资源
     private fun initMediaPlayer() {
         val assetManager = context.assets
         val error = assetManager.openFd("error.mp3")
@@ -63,6 +68,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         rightAudioPlayer.prepare()
     }
 
+    //刷新按钮
     fun buttonsRefresh() {
         for (bt in buttonList) {
             if (bt == button_2)
@@ -72,13 +78,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         }
     }
 
-    fun release() {
-        errorAudioPlayer.stop()
-        errorAudioPlayer.release()
-        rightAudioPlayer.stop()
-        rightAudioPlayer.release()
-    }
-
+    //刷新布局位置，同时改变按钮方位
     fun layoutRefresh() {
         this.translationX = 10f
         this.translationY = 10f
@@ -108,5 +108,24 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         layoutButtons.layoutParams=paramsButtons//重绘
         buttonsRefresh()
     }
+
     private fun Int.toPx():Int=(this* Resources.getSystem().displayMetrics.density).toInt()
+
+    //设置布局的位置
+    fun setLocation(x: Float, y:Float) {
+
+    }
+
+    //设置布局的大小
+    fun setSizeOfLayout() {
+
+    }
+
+    //释放音频资源
+    fun release() {
+        errorAudioPlayer.stop()
+        errorAudioPlayer.release()
+        rightAudioPlayer.stop()
+        rightAudioPlayer.release()
+    }
 }
