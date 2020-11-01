@@ -36,7 +36,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                 rightAudioPlayer.start()
                 MainActivity.select++
                 if (MainActivity.select==16){
-                    MainActivity.select=0
+//                    MainActivity.select=0
                     MainActivity.cm++
                 }
                 if(MainActivity.cm ==2){
