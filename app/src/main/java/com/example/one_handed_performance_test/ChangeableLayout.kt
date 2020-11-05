@@ -12,14 +12,16 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
+import com.example.one_handed_performance_test.MainActivity.Companion.select
 import com.example.one_handed_performance_test.PlayActivity.Companion.Ti
 import com.example.one_handed_performance_test.PlayActivity.Companion.To
 import com.example.one_handed_performance_test.PlayActivity.Companion.Ts
 import com.example.one_handed_performance_test.PlayActivity.Companion.flag
 import com.example.one_handed_performance_test.PlayActivity.Companion.lockdown
+import com.example.one_handed_performance_test.PlayActivity.Companion.timestamp
 import com.example.one_handed_performance_test.PlayActivity.Companion.tmpt
+import kotlinx.android.synthetic.main.activity_play.*
 import kotlinx.android.synthetic.main.button_array.view.*
-import org.apache.log4j.chainsaw.Main
 import java.util.*
 import java.util.Collections.shuffle
 
@@ -46,11 +48,10 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
     private fun setEachButtonListener(bt: Button) {
         if (bt == button_2) {
             bt.setOnClickListener {
-                if (Ti != 0L && Ts == 0L) {
-                    Ts = System.currentTimeMillis() - tmpt
+                if (Ti[select] != 0L ) {
+                    Ts[select] = System.currentTimeMillis() - tmpt
                     println("三Ts时间为" + Ts)
                     Log.d("手指", "subPlayChanged: ts成功开始")
-                    lockdown = 0
                 }
                 bt.setBackgroundResource(R.drawable.shape_circle_green)
                 rightAudioPlayer.start()
@@ -80,14 +81,17 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                 MainActivity.zcOpr = MainActivity.ZC[MainActivity.zc]
                 MainActivity.cmOpr = MainActivity.CM[MainActivity.cm]
                 layoutRefresh()
+                iNit()
             }
         }
         else {
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_red)
                 errorAudioPlayer.start()
-                layoutRefresh()
             }
+            layoutRefresh()
+            iNit()
+            flag=-1
         }
     }
 
@@ -168,42 +172,20 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         rightAudioPlayer.stop()
         rightAudioPlayer.release()
     }
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        when(event?.actionMasked){
-            MotionEvent.ACTION_DOWN -> {
-                if (Ti != 0L && Ts == 0L) {
-                    Ts = System.currentTimeMillis() - tmpt
-                    println("三Ts时间为" + Ts)
-                    Log.d("手指", "onTouchEvent: ts成功开始")
-                    lockdown = 0
-                }
-                Log.d("手指", "onTouchEvent: 落下但Ts未开始")
-                tmpt = System.currentTimeMillis()
-                flag = 0
-                lockdown = 1
-
-
-            }
-            MotionEvent.ACTION_MOVE->{
-                flag =0
-            }
-            MotionEvent.ACTION_UP->{
-                if(To !=0L&& Ts ==0L){
-                    Ti =System.currentTimeMillis()- tmpt
-                    println("二Ti时间为"+ Ti)
-                    flag =1
-                    println("finger up")
-                }
-                if(Ti ==0L) {
-                    To = System.currentTimeMillis() - tmpt
-                    tmpt = System.currentTimeMillis()
-                    println("一To时间为" + To)
-                    flag =1
-                }
-
-            }
+    fun iNit(){
+        for(i in 0..15){
+            Ti[i] = 0L
+            Ts[i] = 0L
+            To[i] = 0L
         }
-        return super.onTouchEvent(event)
+        for(i in 0..2){
+            timestamp[i]=0F
+        }
+        tmpt = 0L
+
+        flag = 0
+        lockdown = 0
     }
+
 
 }

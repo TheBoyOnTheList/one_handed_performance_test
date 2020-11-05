@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.example.one_handed_performance_test.MainActivity.Companion.select
 
 import kotlinx.android.synthetic.main.activity_play.*
 import kotlin.concurrent.thread
@@ -19,7 +20,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
     //private var timestamp0 = 0f
     //private var timestamp1=0f
     //private var timestamp2=0f
-    private var timestamp=FloatArray(3){0f}
+
 
     private var tmp = FloatArray(6)
     private var angle=FloatArray(3)
@@ -28,37 +29,38 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
     private var gyroscopeSensor: Sensor? = null
     companion object {
         //计时变量
-        var To = 0L
-        var Ti = 0L
-        var Ts = 0L
-        var tmpt = 0L
-
+        var To = LongArray(16){0L}
+        var Ti = LongArray(16){0L}
+        var Ts = LongArray(16){0L}
+        var tmpt =0L
+        var timestamp=FloatArray(3){0f}
         //判断触摸及运行状态的
         var flag = 0
         var lockdown = 0
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play)
 
         val layout: RelativeLayout = findViewById(R.id.changeableLayout)
-        MainActivity.transX =layout.translationX
-        MainActivity.transY =layout.translationY
+        MainActivity.transX = layout.translationX
+        MainActivity.transY = layout.translationY
 
         thread {
             while (true) {
                 val text = findViewById<TextView>(R.id.textView)
                 text.text =
-                    "Select:${MainActivity.select}   CM:${MainActivity.cmName[MainActivity.cmOpr-1]}   ZC: ${MainActivity.zcName[MainActivity.zcOpr-1]}   " +
-                            "TO:${MainActivity.toName[MainActivity.toOpr-1]}"
+                    "Select:${MainActivity.select}   CM:${MainActivity.cmOpr},${MainActivity.cmName}   ZC: ${MainActivity.zcOpr},${MainActivity.zcName}   " +
+                            "TO:${MainActivity.toOpr},${MainActivity.toName}"
                 Thread.sleep(100)
             }
         }
 
         thread {
-            while (true){
+            while (true) {
                 if (MainActivity.select == 16) {
-                    MainActivity.select=0
+                    MainActivity.select = 0
                     val intent = intent
                     finish()
                     startActivity(intent)
@@ -119,46 +121,51 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         accelerometerSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         gyroscopeSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        sensorManager!!.registerListener(this, gyroscopeSensor, android.hardware.SensorManager.SENSOR_DELAY_UI)
-        sensorManager!!.registerListener(this, accelerometerSensor, android.hardware.SensorManager.SENSOR_DELAY_UI)
-        To = 0L
-        Ti = 0L
-        Ts = 0L
-        tmpt = 0L
-
-        flag = 0
-        lockdown = 0
-
+        sensorManager!!.registerListener(
+            this,
+            gyroscopeSensor,
+            android.hardware.SensorManager.SENSOR_DELAY_GAME
+        )
+        sensorManager!!.registerListener(
+            this,
+            accelerometerSensor,
+            android.hardware.SensorManager.SENSOR_DELAY_NORMAL
+        )
     }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        var Flaag=0 //开关变量
         when(event?.actionMasked){
             MotionEvent.ACTION_DOWN -> {
-                if (Ti != 0L && Ts == 0L) {
-                    Ts = System.currentTimeMillis() - tmpt
-                    println("三Ts时间为" + Ts)
-                    Log.d("手指", "onTouchEvent: ts成功开始")
-                    lockdown = 0
-                }
-                Log.d("手指", "onTouchEvent: 落下但Ts未开始")
-                tmpt = System.currentTimeMillis()
-                flag = 0
-                lockdown = 1
 
-                changeableLayout.layoutRefresh()
-                
+
+                if (Ti[select] != 0L && Ts[select] == 0L) {
+                    Ts[select] = System.currentTimeMillis() - tmpt
+                    println("三Ts时间为" + Ts)
+                    Log.d("手指", "onTouchEvent: ts成功开始")        //如果是记录碰到手机而不是准确落在点上时，这段就可以留下，不然就可以删了
+                    changeableLayout.layoutRefresh()
+                    changeableLayout.iNit()
+                    flag=-1
+
+                }else {
+                    flag = 0
+                    Log.d("手指", "onTouchEvent: 落下但Ts未开始")
+                    tmpt = System.currentTimeMillis()
+                    lockdown = 1
+                }
+
             }
             MotionEvent.ACTION_MOVE->{
                 flag =0
             }
             MotionEvent.ACTION_UP->{
-                if(To !=0L&& Ts ==0L){
-                    Ti =System.currentTimeMillis()- tmpt
+                if(To[select] !=0L&& Ts[select] ==0L){
+                    Ti[select] =System.currentTimeMillis()- tmpt
                     println("二Ti时间为"+ Ti)
                     flag =1
                     println("finger up")
                 }
-                if(Ti ==0L) {
-                    To = System.currentTimeMillis() - tmpt
+                if(Ti[select] ==0L&&flag!=-1) {
+                    To[select] = System.currentTimeMillis() - tmpt
                     tmpt = System.currentTimeMillis()
                     println("一To时间为" + To)
                     flag =1
@@ -169,7 +176,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
         return super.onTouchEvent(event)
     }
     override fun onSensorChanged(event: SensorEvent){
-        if(flag ==1&& Ti ==0L) {    //平移阶段开始工作
+        if(flag ==1&& Ti[select] ==0L) {    //平移阶段开始工作
 
             if (event.sensor.type == Sensor.TYPE_GYROSCOPE) {
                 if (timestamp[0] != 0f) {
@@ -179,13 +186,13 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                     angle[1] += event.values[1] * dT
                     var anglex = Math.toDegrees(angle[0].toDouble()).toFloat()
                     var angley = Math.toDegrees(angle[1].toDouble()).toFloat()
-                    if (abs(anglex) < 3 ) {            //“降噪”消除小抖动带来的影响，仍不是很确定要不要采用
-                        anglex = 0F
+                    /*    if (abs(anglex) < 2 ) {            //“降噪”消除小抖动带来的影响，仍不是很确定要不要采用
+                            anglex = 0F
 
-                    }
-                    if( abs(angley) < 3 ){
-                        angley = 0F
-                    }
+                        }
+                        if( abs(angley) < 2 ){
+                            angley = 0F
+                        }*/
                     println("进入平移阶段")
                     Log.d("平移标记", " Ti: "+Ti+" lockdown= "+lockdown+" flag:"+flag)
                     if(abs(anglex)<abs(angley)) {
@@ -200,7 +207,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
             return //保证平移时只会进行平移的操作
 
         }
-        if(Ti!=0L|| lockdown==0){
+        if(Ti[select]!=0L|| lockdown==0){
             return
         } //经过平移和放大后，让陀螺仪停止工作
 
@@ -390,19 +397,20 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
         println("水平平移阶段")
         val layout: RelativeLayout = findViewById(R.id.changeableLayout)
         if(ang>0) {
-            layout.translationX = layout.translationX - 50//针对图像左边，单位pixel
+            layout.translationX = layout.translationX - 10//针对图像左边，单位pixel
         }else if(ang<0){
-            layout.translationX = layout.translationX + 50
+            layout.translationX = layout.translationX + 10
         }
     }
     fun verticalShift(ang:Float){
         println("垂直平移阶段")
         val layout: RelativeLayout = findViewById(R.id.changeableLayout)
         if(ang<0) {
-            layout.translationY = layout.translationY + 50//针对top(不知道是那个top)，单位pixel
+            layout.translationY = layout.translationY + 10//针对top(不知道是那个top)，单位pixel
         }else if(ang>0){
-            layout.translationY = layout.translationY - 50
+            layout.translationY = layout.translationY - 10
         }
     }
+
 
 }
