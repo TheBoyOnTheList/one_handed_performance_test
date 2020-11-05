@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
-    android:background="#E6E6FA"
-    android:translationX="10dp"
-    android:translationY="10dp">
+    android:layout_width="900dp"
+    android:layout_height="900dp"
+    android:background="#00FF33"
+    >
 
     <include layout="@layout/button_array"/>
 
