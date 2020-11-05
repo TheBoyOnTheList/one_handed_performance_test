@@ -49,8 +49,8 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
             while (true) {
                 val text = findViewById<TextView>(R.id.textView)
                 text.text =
-                    "Select:${MainActivity.select}   CM:${MainActivity.cmOpr}   ZC: ${MainActivity.zcOpr}   " +
-                            "TO:${MainActivity.toOpr}"
+                    "Select:${MainActivity.select}   CM:${MainActivity.cmName[MainActivity.cmOpr-1]}   ZC: ${MainActivity.zcName[MainActivity.zcOpr-1]}   " +
+                            "TO:${MainActivity.toName[MainActivity.toOpr-1]}"
                 Thread.sleep(100)
             }
         }

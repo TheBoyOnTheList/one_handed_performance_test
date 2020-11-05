@@ -33,6 +33,11 @@ class MainActivity : AppCompatActivity(){
 
         var transX=0F
         var transY=0F
+
+        val toName = arrayOf("前后","左右","左上右下","右上左下")
+        val zcName = arrayOf("触点","触点上","触点下","触点外","中心点")
+        val cmName = arrayOf("绝对映射","速率映射")
+
     }
 
 
