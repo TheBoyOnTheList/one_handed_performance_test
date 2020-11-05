@@ -144,7 +144,8 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                 flag = 0
                 lockdown = 1
 
-
+                changeableLayout.layoutRefresh()
+                
             }
             MotionEvent.ACTION_MOVE->{
                 flag =0
