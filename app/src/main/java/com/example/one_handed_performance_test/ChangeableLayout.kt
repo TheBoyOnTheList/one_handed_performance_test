@@ -97,11 +97,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_red)
                 errorAudioPlayer.start()
-<<<<<<< Updated upstream
                 layoutRefresh()
-=======
                 taskCompleted(1)
->>>>>>> Stashed changes
             }
         }
     }
