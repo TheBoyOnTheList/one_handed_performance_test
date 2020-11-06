@@ -7,5 +7,5 @@ package com.example.one_handed_performance_test
     因变量:视图缩小阶段的时间Tc 视图放大阶段的时间记录为两部分T+Ts 出错次数
     kotlin自动实现getter
  */
-class ExperimentData(val user: String, val TO: String, val ZC: String, val CM: String,
+class ExperimentData(val user: String, val feedback: Int, val TO: Double, val ZC: Double, val CM: Double,
                      val Tc: Double, val T: Double, val Ts: Double, val error: Double)

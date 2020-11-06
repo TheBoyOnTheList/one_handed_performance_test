@@ -2,6 +2,7 @@ package com.example.one_handed_performance_test
 
 import jxl.Workbook
 import jxl.write.Label
+import jxl.write.Number
 import jxl.write.WritableSheet
 import jxl.write.WritableWorkbook
 import java.io.File
@@ -47,7 +48,7 @@ class SaveToExcel(excelId: String) {
         }
     }
 
-    private fun writeToExcel(user: String, TO: String, ZC: String, CM: String,
+    private fun writeToExcel(user: String, TO: Double, ZC: Double, CM: Double,
                              Tc: Double, T: Double, Ts: Double, error: Double) {
         //读取现有工作簿
         val oldWwb = Workbook.getWorkbook(excelFile)
@@ -59,13 +60,13 @@ class SaveToExcel(excelId: String) {
         val recentRow = ws.rows
         //填充实验数据
         val labelOfUser = Label(0, recentRow, user)
-        val labelOfTO = Label(1, recentRow, TO)
-        val labelOfZC = Label(2, recentRow, ZC)
-        val labelOfCM = Label(3, recentRow, CM)
-        val numOfTc = jxl.write.Number(4, recentRow, Tc)
-        val numOfT = jxl.write.Number(5, recentRow, T)
-        val numOfTs = jxl.write.Number(6, recentRow, Ts)
-        val numOferror = jxl.write.Number(7, recentRow, error)
+        val labelOfTO = Number(1, recentRow, TO)
+        val labelOfZC = Number(2, recentRow, ZC)
+        val labelOfCM = Number(3, recentRow, CM)
+        val numOfTc = Number(4, recentRow, Tc)
+        val numOfT = Number(5, recentRow, T)
+        val numOfTs = Number(6, recentRow, Ts)
+        val numOferror = Number(7, recentRow, error)
 
         ws.addCell(labelOfUser)
         ws.addCell(labelOfTO)
@@ -80,7 +81,7 @@ class SaveToExcel(excelId: String) {
         wwb.close()
     }
 
-    private fun save(data: ExperimentData) {
+    fun save(data: ExperimentData) {
         if (data == null)
             return;
         else try {

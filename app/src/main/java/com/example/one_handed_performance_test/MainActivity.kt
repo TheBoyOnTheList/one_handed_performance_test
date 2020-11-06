@@ -8,7 +8,6 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.RelativeLayout
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_play.*
@@ -39,9 +38,6 @@ class MainActivity : AppCompatActivity(){
         val toName = arrayOf("前后","左右","左上右下","右上左下")
         val zcName = arrayOf("触点","触点上","触点下","触点外","中心点")
         val cmName = arrayOf("绝对映射","速率映射")
-
-        var leftORrightHand = 1
-
     }
 
 
@@ -52,22 +48,7 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, PlayActivity::class.java)
             startActivity(intent)
         }
-        leftORright.setOnClickListener {
-            AlertDialog.Builder(this).apply {
-                setTitle("select hand")
-                setMessage("请选择您的惯用手")
-                setCancelable(false)
-                setPositiveButton("右手"){
-                        dialog,which->
-                    leftORrightHand=1
-                }
-                setNegativeButton("左手"){
-                        dialog,which->
-                    leftORrightHand=2
-                }
-                show()
-            }
-        }
+
         Collections.shuffle(ZC)
         Collections.shuffle(CM)
 

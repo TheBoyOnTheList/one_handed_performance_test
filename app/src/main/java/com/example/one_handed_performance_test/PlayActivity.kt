@@ -37,7 +37,6 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
         //判断触摸及运行状态的
         var flag = 0
         var lockdown = 0
-
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +50,8 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
             while (true) {
                 val text = findViewById<TextView>(R.id.textView)
                 text.text =
-                    "Select:${MainActivity.select}   CM:${MainActivity.cmOpr},${MainActivity.cmName}   ZC: ${MainActivity.zcOpr},${MainActivity.zcName}   " +
-                            "TO:${MainActivity.toOpr},${MainActivity.toName}"
+                    "Select:${MainActivity.select}   CM:${MainActivity.cmOpr}   ZC: ${MainActivity.zcOpr}   " +
+                            "TO:${MainActivity.toOpr}"
                 Thread.sleep(100)
             }
         }
@@ -124,7 +123,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
         sensorManager!!.registerListener(
             this,
             gyroscopeSensor,
-            android.hardware.SensorManager.SENSOR_DELAY_GAME
+            android.hardware.SensorManager.SENSOR_DELAY_UI
         )
         sensorManager!!.registerListener(
             this,
@@ -143,6 +142,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                     println("三Ts时间为" + Ts)
                     Log.d("手指", "onTouchEvent: ts成功开始")        //如果是记录碰到手机而不是准确落在点上时，这段就可以留下，不然就可以删了
                     changeableLayout.layoutRefresh()
+                    changeableLayout.taskCompleted(2)
                     changeableLayout.iNit()
                     flag=-1
 
@@ -152,7 +152,17 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                     tmpt = System.currentTimeMillis()
                     lockdown = 1
                 }
+<<<<<<< Updated upstream
+                Log.d("手指", "onTouchEvent: 落下但Ts未开始")
+                tmpt = System.currentTimeMillis()
+                flag = 0
+                lockdown = 1
 
+                changeableLayout.layoutRefresh()
+                
+=======
+
+>>>>>>> Stashed changes
             }
             MotionEvent.ACTION_MOVE->{
                 flag =0
@@ -186,13 +196,13 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                     angle[1] += event.values[1] * dT
                     var anglex = Math.toDegrees(angle[0].toDouble()).toFloat()
                     var angley = Math.toDegrees(angle[1].toDouble()).toFloat()
-                    /*    if (abs(anglex) < 2 ) {            //“降噪”消除小抖动带来的影响，仍不是很确定要不要采用
-                            anglex = 0F
+                    if (abs(anglex) < 2 ) {            //“降噪”消除小抖动带来的影响，仍不是很确定要不要采用
+                        anglex = 0F
 
-                        }
-                        if( abs(angley) < 2 ){
-                            angley = 0F
-                        }*/
+                    }
+                    if( abs(angley) < 2 ){
+                        angley = 0F
+                    }
                     println("进入平移阶段")
                     Log.d("平移标记", " Ti: "+Ti+" lockdown= "+lockdown+" flag:"+flag)
                     if(abs(anglex)<abs(angley)) {

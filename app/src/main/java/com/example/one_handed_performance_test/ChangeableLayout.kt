@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.media.MediaPlayer
+import android.os.Environment
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -20,18 +20,26 @@ import com.example.one_handed_performance_test.PlayActivity.Companion.flag
 import com.example.one_handed_performance_test.PlayActivity.Companion.lockdown
 import com.example.one_handed_performance_test.PlayActivity.Companion.timestamp
 import com.example.one_handed_performance_test.PlayActivity.Companion.tmpt
-import kotlinx.android.synthetic.main.activity_play.*
 import kotlinx.android.synthetic.main.button_array.view.*
+import java.io.File
 import java.util.*
-import java.util.Collections.shuffle
+import java.util.concurrent.LinkedBlockingDeque
 
 class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(context, attrs) {
     private val errorAudioPlayer = MediaPlayer()//播放音频对象
     private val rightAudioPlayer = MediaPlayer()
     private var buttonList: List<Button>//按钮列表
+
+    //向excel存数据使用到的变量
+    private lateinit var dataList: LinkedBlockingDeque<ExperimentData>
+    private lateinit var subjectInfo: String
+    private lateinit var saveToExcel: SaveToExcel
+    private lateinit var runnable: SaveDataRunnable
+
     init {
         LayoutInflater.from(context).inflate(R.layout.changeable_layout, this)
         initMediaPlayer()
+        initSaveDataMethod()
         buttonList = listOf(button_0, button_1, button_2, button_3, button_4)
         setButtonListener()
     }
@@ -81,6 +89,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                 MainActivity.zcOpr = MainActivity.ZC[MainActivity.zc]
                 MainActivity.cmOpr = MainActivity.CM[MainActivity.cm]
                 layoutRefresh()
+                taskCompleted(0)
                 iNit()
             }
         }
@@ -88,10 +97,12 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_red)
                 errorAudioPlayer.start()
+<<<<<<< Updated upstream
+                layoutRefresh()
+=======
+                taskCompleted(1)
+>>>>>>> Stashed changes
             }
-            layoutRefresh()
-            iNit()
-            flag=-1
         }
     }
 
@@ -187,5 +198,78 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         lockdown = 0
     }
 
+    fun initSaveDataMethod() {
+        dataList = LinkedBlockingDeque()
+        val excelPath = getExcelDir() + File.separator + "User_" + subjectInfo + "_" + 0 + ".xls"
+        saveToExcel = SaveToExcel(excelPath)
+        runnable = SaveDataRunnable(saveToExcel, dataList)
+        Thread(runnable).start()
+    }
+    fun getExcelDir(): String {
+        //SD卡指定文件夹
+        val sdcardPath = Environment.getExternalStorageState().toString()
+        val dir = File(sdcardPath + File.separator + "OneHand-Excel" + File.separator + "User_" + subjectInfo)
+        if (dir.exists()) {
+            return dir.toString()
+        } else {
+            dir.mkdirs();
+            return dir.toString()
+        }
+    }
 
+    fun taskCompleted(correct: Int) {
+        when(correct) {
+            0 ->  //添加一条记录到List
+                try {
+                dataList.put(
+                    ExperimentData("1",
+                        0,
+                        MainActivity.to as Double,
+                        MainActivity.zc.toDouble(),
+                        MainActivity.cm as Double,
+                        To[select].toDouble(),
+                        Ti[select].toDouble(),
+                        Ts[select].toDouble(),
+                        0.0
+                    )
+                )
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+            1 -> //添加一条记录到List
+                try {
+                    dataList.put(
+                        ExperimentData("1",
+                            0,
+                            MainActivity.to as Double,
+                            MainActivity.zc.toDouble(),
+                            MainActivity.cm as Double,
+                            (-1).toDouble(),
+                            (-1).toDouble(),
+                            (-1).toDouble(),
+                            1.0
+                        )
+                    )
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            2 ->
+                try {
+                    dataList.put(
+                        ExperimentData("1",
+                        0,
+                        MainActivity.to as Double,
+                        MainActivity.zc.toDouble(),
+                            MainActivity.cm as Double,
+                            (-1).toDouble(),
+                            (-1).toDouble(),
+                            (-1).toDouble(),
+                            2.0
+                        )
+                    )
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+        }
+    }
 }
