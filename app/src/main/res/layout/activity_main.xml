@@ -1,58 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/parent"
+    >
 
-    <!--相册引入按键-->
     <Button
-        android:id="@+id/fromAlbumBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="From Album"/>
-
-    <!--放大按键-->
-    <Button
-        android:id="@+id/enlarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+"/>
-
-    <!--缩小按键-->
-    <Button
-        android:id="@+id/narrow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="-"/>
-
-    <!--图片位-->
-    <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/startPlayActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tag="unselected"
-        android:layout_gravity="center_horizontal" />
-
-    <ImageView
-        android:id="@+id/hiddenImg"
+        android:layout_centerInParent="true"
+        android:text="start"/>
+    <Button
+        android:id="@+id/leftORright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="select hand" />
 
-    <TextView
-        android:id="@+id/showTextx"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This is x" />
-    <TextView
-        android:id="@+id/showTexty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This is y" />
-    <TextView
-        android:id="@+id/showTextz"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This is z" />
-
-
-</LinearLayout>
+</RelativeLayout>
