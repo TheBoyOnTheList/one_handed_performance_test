@@ -318,6 +318,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
     override fun onDestroy() {
         super.onDestroy()
         sensorManager!!.unregisterListener(this)
+        changeableLayout.runnable.stop()
     }
     override fun onResume() {
         super.onResume()

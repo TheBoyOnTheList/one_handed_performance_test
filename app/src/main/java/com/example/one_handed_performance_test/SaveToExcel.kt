@@ -1,10 +1,8 @@
 package com.example.one_handed_performance_test
 
 import jxl.Workbook
-import jxl.write.Label
+import jxl.write.*
 import jxl.write.Number
-import jxl.write.WritableSheet
-import jxl.write.WritableWorkbook
 import java.io.File
 import java.lang.Exception
 
@@ -59,14 +57,15 @@ class SaveToExcel(excelId: String) {
         //获取当前行数
         val recentRow = ws.rows
         //填充实验数据
+        val integerFormat: WritableCellFormat = WritableCellFormat(NumberFormats.INTEGER)
         val labelOfUser = Label(0, recentRow, user)
-        val labelOfTO = Number(1, recentRow, TO)
-        val labelOfZC = Number(2, recentRow, ZC)
-        val labelOfCM = Number(3, recentRow, CM)
-        val numOfTc = Number(4, recentRow, Tc)
-        val numOfT = Number(5, recentRow, T)
-        val numOfTs = Number(6, recentRow, Ts)
-        val numOferror = Number(7, recentRow, error)
+        val labelOfTO = Number(1, recentRow, TO, integerFormat)
+        val labelOfZC = Number(2, recentRow, ZC, integerFormat)
+        val labelOfCM = Number(3, recentRow, CM, integerFormat)
+        val numOfTc = Number(4, recentRow, Tc, integerFormat)
+        val numOfT = Number(5, recentRow, T, integerFormat)
+        val numOfTs = Number(6, recentRow, Ts, integerFormat)
+        val numOferror = Number(7, recentRow, error, integerFormat)
 
         ws.addCell(labelOfUser)
         ws.addCell(labelOfTO)
