@@ -152,17 +152,12 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                     tmpt = System.currentTimeMillis()
                     lockdown = 1
                 }
-<<<<<<< Updated upstream
                 Log.d("手指", "onTouchEvent: 落下但Ts未开始")
                 tmpt = System.currentTimeMillis()
                 flag = 0
                 lockdown = 1
 
                 changeableLayout.layoutRefresh()
-                
-=======
-
->>>>>>> Stashed changes
             }
             MotionEvent.ACTION_MOVE->{
                 flag =0
