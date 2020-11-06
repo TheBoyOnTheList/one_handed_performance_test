@@ -135,28 +135,27 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         val layout: RelativeLayout = findViewById(R.id.changeableLayout)//刷新后的控件
         layout.scaleX=1F
         layout.scaleY=1F
-        layout.translationX = MainActivity.transX
-        layout.translationY = MainActivity.transY
+        layout.translationX = MainActivity.transX-300
+        layout.translationY = MainActivity.transY-300
         val layoutButtons: LinearLayout = findViewById(R.id.buttons)//重新设置按钮的相对位置
         val paramsButtons: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(100.toPxInt(),100.toPxInt())
 
-        val kind = (1..9).random()
+        val kind = (1..8).random()
         when(kind){//选择按钮更新位置
             1 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_LEFT)//左上角
             2 -> paramsButtons.addRule(RelativeLayout.CENTER_HORIZONTAL)//上边正中
             3 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)//右上角
             4 -> paramsButtons.addRule(RelativeLayout.CENTER_VERTICAL)//左边正中
-            5 -> paramsButtons.addRule(RelativeLayout.CENTER_IN_PARENT)//中心
-            6 -> {
+            5 -> {
                 paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)//右边正中
                 paramsButtons.addRule(RelativeLayout.CENTER_VERTICAL)
             }
-            7 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)//左下角
-            8 -> {
+            6 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)//左下角
+            7 -> {
                 paramsButtons.addRule(RelativeLayout.CENTER_HORIZONTAL)//下边正中
                 paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
             }
-            9 -> {
+            8 -> {
                 paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)//右下角
                 paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
             }
