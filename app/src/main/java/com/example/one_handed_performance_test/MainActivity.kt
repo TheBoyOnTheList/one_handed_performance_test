@@ -58,11 +58,11 @@ class MainActivity : AppCompatActivity(){
                 setMessage("请选择您的惯用手")
                 setCancelable(false)
                 setPositiveButton("右手"){
-                        dialog,which->
+                    dialog,which->
                     leftORrightHand=1
                 }
                 setNegativeButton("左手"){
-                        dialog,which->
+                    dialog,which->
                     leftORrightHand=2
                 }
                 show()
