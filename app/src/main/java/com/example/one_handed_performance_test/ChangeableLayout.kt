@@ -26,6 +26,8 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.LinkedBlockingDeque
 import kotlin.math.abs
+import kotlin.math.log
+import kotlin.math.log10
 
 
 class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(context, attrs) {
@@ -169,28 +171,80 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
 
     fun enLarge(tmpx: Float,tmpy:Float,tmpz:Float,Fla:Int ){//布局放大
         val layout: RelativeLayout = this//按钮所在布局的放缩，布局上的按钮随之放缩
+        var param1=0f
+        if(abs(tmpx)<=7){
+            param1=1.005f
+        }else if(abs(tmpx)<=17) {
+            param1=(((log10(abs(tmpx))/ log10(abs(tmpx )+6)) + 1) / 12 * 7).toFloat()
+
+        }else if(abs(tmpx)<=40){
+            param1=(((log(abs(tmpx), abs(tmpx )+ 23)) + 1) / 12 * 7).toFloat()
+        }else if(abs(tmpx)<75){
+            param1=(((log(abs(tmpx), abs(tmpx )+ 50)) + 1) / 12 * 7).toFloat()
+        }else{
+            param1=1.105f
+        }
+        param1=(param1+1)/2
+        var param2=0f
+        if(abs(tmpy)<=7){
+            param2=1.005f
+        }else if(abs(tmpy)<=17) {
+            param2 = (((log10(abs(tmpx)) / log10(abs(tmpx) + 6)) + 1) / 12 * 7).toFloat()
+        }
+        param2=(param2+7)/8
 
         if(Fla==1) {
 
-            layout.scaleX = (layout.scaleX) * 1.1F;//大小
-            layout.scaleY = (layout.scaleY) * 1.1F;
+            layout.scaleX = (layout.scaleX) * 1.15F;//大小
+            layout.scaleY = (layout.scaleY) * 1.15F;
         }else{
-            layout.scaleX = (layout.scaleX) * 1.005F* abs(tmpx)//*abs(tmpy)*abs(tmpz);//大小
-            layout.scaleY = (layout.scaleY) * 1.005F* abs(tmpx)//*abs(tmpy)*abs(tmpz);
+            if(tmpy==0f) {
+                layout.scaleX = (layout.scaleX) * param1//*param2//大小
+                layout.scaleY = (layout.scaleY) * param1//*param2
+            }else{
+                layout.scaleX = (layout.scaleX) * param1*param2//大小
+                layout.scaleY = (layout.scaleY) * param1*param2
+            }
+
         }
     }
 
     fun naRrow(tmpx: Float,tmpy:Float,tmpz:Float,Fla:Int){//布局缩小
         val layout: RelativeLayout = this//同上
-
-
-        if(Fla==1) {
-            layout.scaleX = (layout.scaleX) * 0.9F;
-            layout.scaleY = (layout.scaleY) * 0.9F;
+        var param1=0f
+        if(abs(tmpx)<=7){
+            param1=1.005f
+        }else if(abs(tmpx)<=17) {
+            param1=(((log10(abs(tmpx))/ log10(abs(tmpx )+6)) + 1) / 12 * 7).toFloat()
+        }else if(abs(tmpx)<=40){
+            param1=(((log(abs(tmpx), abs(tmpx )+ 23)) + 1) / 12 * 7).toFloat()
+        }else if(abs(tmpx)<75){
+            param1=(((log(abs(tmpx), abs(tmpx )+ 50)) + 1) / 12 * 7).toFloat()
         }else{
-            layout.scaleX=(layout.scaleX)*0.995F*abs(tmpx)//*abs(tmpy)*abs(tmpz);
-            layout.scaleY=(layout.scaleY)*0.995F*abs(tmpx)//*abs(tmpy)*abs(tmpz);
+            param1=1.105f
         }
+        param1=(param1+1)/2
+        var param2=0f
+        if(abs(tmpy)<=7){
+            param2=1.005f
+        }else if(abs(tmpy)<=17) {
+            param2 = (((log10(abs(tmpx)) / log10(abs(tmpx) + 6)) + 1) / 12 * 7).toFloat()
+        }
+        param2=(param2+7)/8
+        if(Fla==1) {
+            layout.scaleX = (layout.scaleX) * 0.85F;
+            layout.scaleY = (layout.scaleY) * 0.85F;
+        }else{
+            if(tmpy==0f){
+                layout.scaleX=(layout.scaleX)/param1//*param2
+                layout.scaleY=(layout.scaleY)/param1//*param2
+            }else{
+                layout.scaleX=(layout.scaleX)/(param1*param2)
+                layout.scaleY=(layout.scaleY)/(param1*param2)
+            }
+
+        }
+
     }
 
     fun horizentalShift(ang:Float){

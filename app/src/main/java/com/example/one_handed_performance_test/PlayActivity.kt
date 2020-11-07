@@ -141,13 +141,13 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                     angle[1] += event.values[1] * dT
                     var anglex = Math.toDegrees(angle[0].toDouble()).toFloat()
                     var angley = Math.toDegrees(angle[1].toDouble()).toFloat()
-                /*    if (abs(anglex) < 2 ) {            //“降噪”消除小抖动带来的影响，仍不是很确定要不要采用
-                        anglex = 0F
+                    /*    if (abs(anglex) < 2 ) {            //“降噪”消除小抖动带来的影响，仍不是很确定要不要采用
+                            anglex = 0F
 
-                    }
-                    if( abs(angley) < 2 ){
-                        angley = 0F
-                    }*/
+                        }
+                        if( abs(angley) < 2 ){
+                            angley = 0F
+                        }*/
                     println("进入平移阶段")
                     Log.d("平移标记", " Ti: "+Ti+" lockdown= "+lockdown+" flag:"+flag)
                     if(abs(anglex)<abs(angley)) {
@@ -166,7 +166,7 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
             return
         } //经过平移和放大后，让陀螺仪停止工作
 
-        //MainActivity.cm =2  //临时测试给一个数据，仅用绝对映射方式
+        // MainActivity.cm =2  //临时测试给一个数据，仅用绝对映射方式
         when(MainActivity.cmOpr)  {
             1-> {
                 if (event.sensor.type == Sensor.TYPE_GYROSCOPE) {
@@ -186,19 +186,13 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                         var anglex = Math.toDegrees(angle[0].toDouble()).toFloat()
                         var angley = Math.toDegrees(angle[1].toDouble()).toFloat()
                         var anglez = Math.toDegrees(angle[2].toDouble()).toFloat()
-                        println("anglex------------>$anglex")
-                        println("angley------------>$angley")
-                        println("anglez------------>$anglez")
-                           if (abs(anglex) < 2  ) {
-                               anglex = 0F
-                           }
-                           if(abs(angley) < 2){
-                               angley=0F
-                           }
-
-
+                        if (abs(anglex) < 2  ) {
+                            anglex = 0F
+                        }
+                        if(abs(angley) < 2){
+                            angley=0F
+                        }
                         println("gyroscopeSensor.getMinDelay()----------->" + gyroscopeSensor!!.minDelay)
-
                         tmp[3] = tmp[0]
                         tmp[4] = tmp[1]
                         tmp[5] = tmp[2]
@@ -211,31 +205,19 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
 
                         }
                         //x,y反向放大，正向缩小，右下、左下缩小，左上、右上放大
-                        //  MainActivity.to=1//临时测试给一个数据，仅用x轴进行放缩
+
                         when (MainActivity.toOpr) {
                             1-> if (tmp[3] > tmp[0] + 3) {                //纯x轴，即前后
                                 // showViewx?.text = "x轴反向放大"
                                 changeableLayout.enLarge(0F, 0F, 0F, 1)
-                            }
-                            /*
-                            else if (StrictMath.abs(tmp[3] - tmp[0]) < 0.1) {
-                                //  showViewx?.text = "x轴不变"
-                            }
-    */
-                            else if (tmp[3] < tmp[0] - 3) {
+                            }else if (tmp[3] < tmp[0] - 3) {
                                 // showViewx?.text = "x轴正向缩小"
                                 changeableLayout.naRrow(0F, 0F, 0F, 1)
                             }
                             2-> if (tmp[4] > tmp[1] + 3) {               //纯y轴，即左右
                                 //  showViewy?.text = "y轴反向放大"
                                 changeableLayout.enLarge(0F, 0F, 0F, 1)
-                            }
-/*
-                        else if (StrictMath.abs(tmp[4] - tmp[1]) < 0.1) {
-                            //  showViewy?.text = "y轴不变"
-                         }
- */
-                            else if (tmp[4] < tmp[1] - 3) {
+                            }else if (tmp[4] < tmp[1] - 3) {
                                 changeableLayout.naRrow(0F, 0F, 0F, 1)
                                 // showViewy?.text = "y轴正向缩小"
                             }
@@ -278,26 +260,49 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                         angle[2] += event.values[2] * dT
 
 // 将弧度转化为角度
-                        var anglex =angle[0]+1// Math.toDegrees(angle[0].toDouble()).toFloat()
-                        var angley =angle[1]+1// Math.toDegrees(angle[1].toDouble()).toFloat()
-                        var anglez =angle[2]+1// Math.toDegrees(angle[2].toDouble()).toFloat()
-                        println("anglex------------>$anglex")
-                        println("angley------------>$angley")
-                        println("anglez------------>$anglez")
-                        /*   if(abs(anglex)<7&&abs(angley)<7){
-                               anglex=0F
-                               angley=0F
-                           }*/
-                        if((anglex>0&&angley>0&&anglez<0)||(anglex>0&&angley<0&&anglez>0)||angley>0||anglex>0) {
-                            changeableLayout.enLarge(anglex, angley, anglez,2)
+                        var anglex = Math.toDegrees(angle[0].toDouble()).toFloat()
+                        var angley = Math.toDegrees(angle[1].toDouble()).toFloat()
+                        var anglez = Math.toDegrees(angle[2].toDouble()).toFloat()
+                        if (abs(anglex) < 2  ) {
+                            anglex = 0F
                         }
-                        if((anglex<0&&angley<0&&anglez<0)||(anglex<0&&angley>0&&anglez>0)||angley<0||anglex<0) {
-                            changeableLayout.naRrow(anglex, angley, anglez,2)
+                        if(abs(angley) < 2){
+                            angley=0F
                         }
+                        when(MainActivity.toOpr){
+                            1->{
+                                if(anglex>0){
+                                    changeableLayout.naRrow(anglex,0f,0f,2)
 
+                                }else if(anglex<0){
+                                    changeableLayout.enLarge(anglex,0f,0f,2)
+                                }
+                            }
+                            2->{
+                                if(angley>0){
+                                    changeableLayout.naRrow(0f,angley,0f,2)
+                                }else if(angley<0){
+                                    changeableLayout.enLarge(0f,angley,0f,2)
+                                }
+                            }
+                            3->{
+                                if(anglex>0&&angley<0&&anglez>0){
+                                    changeableLayout.naRrow(anglex,angley,anglez,2)
+                                }else if(anglex<0&&angley>0&&anglez>0){
+                                    changeableLayout.enLarge(anglex,angley,anglez,2)
+
+                                }
+                            }
+                            4->{
+                                if(anglex>0&&angley>0&&anglez<0){
+                                    changeableLayout.enLarge(anglex,angley,anglez,2)
+                                }else if(anglex<0&&angley<0&&anglez<0){
+                                    changeableLayout.naRrow(anglex, angley, anglez,2)
+                                }
+                            }
+
+                        }
                         println("gyroscopeSensor.getMinDelay()----------->" + gyroscopeSensor!!.minDelay)
-
-
                     }
 //将当前时间赋值给timestamp
                     timestamp[2] = event.timestamp.toFloat()
@@ -307,7 +312,6 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
             0-> println("something wrong")
             3-> println("do nothing")
         }
-
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
