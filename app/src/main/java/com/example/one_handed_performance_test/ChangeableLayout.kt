@@ -39,7 +39,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
     private lateinit var dataList: LinkedBlockingDeque<ExperimentData>
     private lateinit var subjectInfo: String
     private lateinit var saveToExcel: SaveToExcel
-    private lateinit var runnable: SaveDataRunnable
+    lateinit var runnable: SaveDataRunnable
     init {
         LayoutInflater.from(context).inflate(R.layout.changeable_layout, this)
         initMediaPlayer()
@@ -360,7 +360,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
     }
     fun getExcelDir(): String {
         //SD卡指定文件夹
-        val sdcardPath = Environment.getExternalStorageState().toString()
+        val sdcardPath = context.externalCacheDir.toString()
         val dir = File(sdcardPath + File.separator + "OneHand-Excel" + File.separator + "User_" + subjectInfo)
         if (dir.exists()) {
             return dir.toString()
@@ -384,23 +384,6 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                             Ti[select].toDouble(),
                             Ts[select].toDouble(),
                             0.0
-                        )
-                    )
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            1 -> //添加一条记录到List
-                try {
-                    dataList.put(
-                        ExperimentData("1",
-                            0,
-                            MainActivity.to.toDouble(),
-                            MainActivity.zc.toDouble(),
-                            MainActivity.cm.toDouble(),
-                            (-1).toDouble(),
-                            (-1).toDouble(),
-                            (-1).toDouble(),
-                            1.0
                         )
                     )
                 } catch (e: InterruptedException) {
