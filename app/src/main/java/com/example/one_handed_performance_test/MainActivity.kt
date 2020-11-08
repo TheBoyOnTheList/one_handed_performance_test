@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(){
 
         var leftORrightHand = 1
 
+        val subjectID = 1 //受试者编号
     }
 
 
