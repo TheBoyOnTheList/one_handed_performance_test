@@ -250,9 +250,9 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         println("水平平移阶段")
         val layout: RelativeLayout = this
         if(ang>0) {
-            layout.translationX = layout.translationX - 10//针对图像左边，单位pixel
+            layout.translationX = layout.translationX + 10//针对图像左边，单位pixel
         }else if(ang<0){
-            layout.translationX = layout.translationX + 10
+            layout.translationX = layout.translationX - 10
         }
     }
 
@@ -260,9 +260,9 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         println("垂直平移阶段")
         val layout: RelativeLayout = this
         if(ang<0) {
-            layout.translationY = layout.translationY + 10//针对top(不知道是那个top)，单位pixel
+            layout.translationY = layout.translationY - 10//针对top(不知道是那个top)，单位pixel
         }else if(ang>0){
-            layout.translationY = layout.translationY - 10
+            layout.translationY = layout.translationY + 10
         }
     }
 
