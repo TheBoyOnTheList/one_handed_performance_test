@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(){
 
     companion object{
         var select =0
-        var block = 0
+        var block = 1
         var to = 0
         var zc = 0
         var cm = 0

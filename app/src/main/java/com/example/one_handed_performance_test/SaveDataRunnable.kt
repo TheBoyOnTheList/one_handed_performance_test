@@ -20,7 +20,7 @@ class SaveDataRunnable(val saveToExcel: SaveToExcel, val queue: LinkedBlockingDe
     }
     fun stop() {
         try {
-            queue.put(ExperimentData("1", -1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            queue.put(ExperimentData(-1.0, -1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }

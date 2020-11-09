@@ -20,14 +20,15 @@ class SaveToExcel(excelId: String) {
                 writableSheet = wwb.createSheet("oneHandZoomExperimentData", 0)
 
                 //创建标签label
-                val r0c0 = Label(0, 0, "user")
-                val r0c1 = Label(1, 0, "TO")
-                val r0c2 = Label(2, 0, "ZC")
-                val r0c3 = Label(3, 0, "CM")
-                val r0c4 = Label(4, 0, "Tc")
-                val r0c5 = Label(5, 0, "T")
-                val r0c6 = Label(6, 0, "Ts")
-                val r0c7 = Label(7, 0, "error")
+                val r0c0 = Label(0, 0, "subjetID")
+                val r0c1 = Label(1, 0, "block")
+                val r0c2 = Label(2, 0, "TO")
+                val r0c3 = Label(3, 0, "ZC")
+                val r0c4 = Label(4, 0, "CM")
+                val r0c5 = Label(5, 0, "Tc")
+                val r0c6 = Label(6, 0, "T")
+                val r0c7 = Label(7, 0, "Ts")
+                val r0c8 = Label(8, 0, "error")
                 //根据标签在指定单元格插入数据
                 writableSheet.addCell(r0c0)
                 writableSheet.addCell(r0c1)
@@ -37,6 +38,7 @@ class SaveToExcel(excelId: String) {
                 writableSheet.addCell(r0c5)
                 writableSheet.addCell(r0c6)
                 writableSheet.addCell(r0c7)
+                writableSheet.addCell(r0c8)
                 //写入文件，释放内存
                 wwb.write()
                 wwb.close()
@@ -46,7 +48,7 @@ class SaveToExcel(excelId: String) {
         }
     }
 
-    private fun writeToExcel(user: String, TO: Double, ZC: Double, CM: Double,
+    private fun writeToExcel(subjectID: Double, block: Double, TO: Double, ZC: Double, CM: Double,
                              Tc: Double, T: Double, Ts: Double, error: Double) {
         //读取现有工作簿
         val oldWwb = Workbook.getWorkbook(excelFile)
@@ -58,23 +60,25 @@ class SaveToExcel(excelId: String) {
         val recentRow = ws.rows
         //填充实验数据
         val integerFormat: WritableCellFormat = WritableCellFormat(NumberFormats.INTEGER)
-        val labelOfUser = Label(0, recentRow, user)
-        val labelOfTO = Number(1, recentRow, TO, integerFormat)
-        val labelOfZC = Number(2, recentRow, ZC, integerFormat)
-        val labelOfCM = Number(3, recentRow, CM, integerFormat)
-        val numOfTc = Number(4, recentRow, Tc, integerFormat)
-        val numOfT = Number(5, recentRow, T, integerFormat)
-        val numOfTs = Number(6, recentRow, Ts, integerFormat)
-        val numOferror = Number(7, recentRow, error, integerFormat)
+        val numOfSubjectID = Number(0, recentRow, subjectID, integerFormat)
+        val numOfBlock = Number(1, recentRow, block, integerFormat)
+        val numOfTO = Number(2, recentRow, TO, integerFormat)
+        val numOfZC = Number(3, recentRow, ZC, integerFormat)
+        val numOfCM = Number(4, recentRow, CM, integerFormat)
+        val numOfTc = Number(5, recentRow, Tc, integerFormat)
+        val numOfT = Number(6, recentRow, T, integerFormat)
+        val numOfTs = Number(7, recentRow, Ts, integerFormat)
+        val numOfError = Number(8, recentRow, error, integerFormat)
 
-        ws.addCell(labelOfUser)
-        ws.addCell(labelOfTO)
-        ws.addCell(labelOfZC)
-        ws.addCell(labelOfCM)
+        ws.addCell(numOfSubjectID)
+        ws.addCell(numOfBlock)
+        ws.addCell(numOfTO)
+        ws.addCell(numOfZC)
+        ws.addCell(numOfCM)
         ws.addCell(numOfTc)
         ws.addCell(numOfT)
         ws.addCell(numOfTs)
-        ws.addCell(numOferror)
+        ws.addCell(numOfError)
 
         wwb.write()
         wwb.close()
@@ -84,7 +88,7 @@ class SaveToExcel(excelId: String) {
         if (data == null)
             return;
         else try {
-            writeToExcel(data.user, data.TO, data.ZC, data.CM, data.Tc, data.T, data.Ts, data.error)
+            writeToExcel(data.subjectID, data.block, data.TO, data.ZC, data.CM, data.Tc, data.T, data.Ts, data.error)
         } catch (e: Exception) {
             e.printStackTrace()
         }
