@@ -109,9 +109,6 @@ class PlayActivity : AppCompatActivity(),SensorEventListener {
                 }
 
             }
-            MotionEvent.ACTION_MOVE->{
-                flag =0
-            }
             MotionEvent.ACTION_UP->{
                 if(To[select] !=0L&& Ts[select] ==0L){
                     Ti[select] =System.currentTimeMillis()- tmpt

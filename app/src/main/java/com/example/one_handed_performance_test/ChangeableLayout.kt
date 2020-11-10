@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.media.MediaPlayer
+import android.os.Environment
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -87,7 +88,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                     Collections.shuffle(MainActivity.ZC)
                     Collections.shuffle(MainActivity.CM)
                 }
-                if(MainActivity.block==3&&MainActivity.to ==3&& MainActivity.zc ==4&& MainActivity.cm ==1)
+                if(MainActivity.block==2&&MainActivity.to ==3&& MainActivity.zc ==4&& MainActivity.cm ==1)
                     Toast.makeText(context, "This is the last ont!", Toast.LENGTH_SHORT).show()
                 MainActivity.toOpr = MainActivity.TO[MainActivity.to]
                 MainActivity.zcOpr = MainActivity.ZC[MainActivity.zc]
@@ -101,11 +102,12 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             bt.setOnClickListener {
                 bt.setBackgroundResource(R.drawable.shape_circle_red)
                 errorAudioPlayer.start()
+                layoutRefresh()
+                taskCompleted(1)
+                iNit()
+                flag=-1
             }
-            layoutRefresh()
-            taskCompleted(1)
-            iNit()
-            flag=-1
+
         }
     }
 
@@ -365,17 +367,17 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         when(correct) {
             0 ->  //添加一条记录到List
                 try {
+
                     dataList.put(
                         ExperimentData(
-                            MainActivity.subjectID.toDouble(),
+                            "1",
                             0,
-                            MainActivity.block.toDouble(),
                             MainActivity.toOpr.toDouble(),
                             MainActivity.zcOpr.toDouble(),
                             MainActivity.cmOpr.toDouble(),
-                            To[select-1].toDouble(),
-                            Ti[select-1].toDouble(),
-                            Ts[select-1].toDouble(),
+                            To[select - 1].toDouble(),
+                            Ti[select - 1].toDouble(),
+                            Ts[select - 1].toDouble(),
                             0.0
                         )
                     )
@@ -385,10 +387,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             1 -> //添加一条记录到List
                 try {
                     dataList.put(
-                        ExperimentData(
-                            MainActivity.subjectID.toDouble(),
+                        ExperimentData("1",
                             0,
-                            MainActivity.block.toDouble(),
                             MainActivity.toOpr.toDouble(),
                             MainActivity.zcOpr.toDouble(),
                             MainActivity.cmOpr.toDouble(),
@@ -404,10 +404,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             2 ->
                 try {
                     dataList.put(
-                        ExperimentData(
-                            MainActivity.subjectID.toDouble(),
+                        ExperimentData("1",
                             0,
-                            MainActivity.block.toDouble(),
                             MainActivity.to.toDouble(),
                             MainActivity.zc.toDouble(),
                             MainActivity.cm.toDouble(),
