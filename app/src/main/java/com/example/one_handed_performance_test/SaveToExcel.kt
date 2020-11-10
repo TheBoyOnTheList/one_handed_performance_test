@@ -46,7 +46,7 @@ class SaveToExcel(excelId: String) {
         }
     }
 
-    private fun writeToExcel(user: String, TO: Double, ZC: Double, CM: Double,
+    private fun writeToExcel(subjectID: Double, block: Double, TO: Double, ZC: Double, CM: Double,
                              Tc: Double, T: Double, Ts: Double, error: Double) {
         //读取现有工作簿
         val oldWwb = Workbook.getWorkbook(excelFile)
@@ -57,17 +57,19 @@ class SaveToExcel(excelId: String) {
         //获取当前行数
         val recentRow = ws.rows
         //填充实验数据
-        val integerFormat: WritableCellFormat = WritableCellFormat(NumberFormats.INTEGER)
-        val labelOfUser = Label(0, recentRow, user)
-        val labelOfTO = Number(1, recentRow, TO, integerFormat)
-        val labelOfZC = Number(2, recentRow, ZC, integerFormat)
-        val labelOfCM = Number(3, recentRow, CM, integerFormat)
-        val numOfTc = Number(4, recentRow, Tc, integerFormat)
-        val numOfT = Number(5, recentRow, T, integerFormat)
-        val numOfTs = Number(6, recentRow, Ts, integerFormat)
-        val numOferror = Number(7, recentRow, error, integerFormat)
+        val integerFormat = WritableCellFormat(NumberFormats.INTEGER)
+        val numOfSubjectID = Number(0, recentRow, subjectID, integerFormat)
+        val numOfBlock = Number(1, recentRow, block, integerFormat)
+        val labelOfTO = Number(2, recentRow, TO, integerFormat)
+        val labelOfZC = Number(3, recentRow, ZC, integerFormat)
+        val labelOfCM = Number(4, recentRow, CM, integerFormat)
+        val numOfTc = Number(5, recentRow, Tc, integerFormat)
+        val numOfT = Number(6, recentRow, T, integerFormat)
+        val numOfTs = Number(7, recentRow, Ts, integerFormat)
+        val numOferror = Number(8, recentRow, error, integerFormat)
 
-        ws.addCell(labelOfUser)
+        ws.addCell(numOfSubjectID)
+        ws.addCell(numOfBlock)
         ws.addCell(labelOfTO)
         ws.addCell(labelOfZC)
         ws.addCell(labelOfCM)
@@ -84,7 +86,7 @@ class SaveToExcel(excelId: String) {
         if (data == null)
             return;
         else try {
-            writeToExcel(data.user, data.TO, data.ZC, data.CM, data.Tc, data.T, data.Ts, data.error)
+            writeToExcel(data.subjectID, data.block, data.TO, data.ZC, data.CM, data.Tc, data.T, data.Ts, data.error)
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.media.MediaPlayer
-import android.os.Environment
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +11,9 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
+import com.example.one_handed_performance_test.MainActivity.Companion.block
 import com.example.one_handed_performance_test.MainActivity.Companion.select
+import com.example.one_handed_performance_test.MainActivity.Companion.subjectID
 import com.example.one_handed_performance_test.PlayActivity.Companion.Ti
 import com.example.one_handed_performance_test.PlayActivity.Companion.To
 import com.example.one_handed_performance_test.PlayActivity.Companion.Ts
@@ -37,13 +38,11 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
 
     //向excel存数据使用到的变量
     private lateinit var dataList: LinkedBlockingDeque<ExperimentData>
-    private lateinit var subjectInfo: String
     private lateinit var saveToExcel: SaveToExcel
     lateinit var runnable: SaveDataRunnable
     init {
         LayoutInflater.from(context).inflate(R.layout.changeable_layout, this)
         initMediaPlayer()
-        subjectInfo = "data"
         initSaveDataMethod()
         buttonList = listOf(button_0, button_1, button_2, button_3, button_4)
         setButtonListener()
@@ -69,8 +68,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                 bt.setBackgroundResource(R.drawable.shape_circle_green)
                 rightAudioPlayer.start()
 
-                MainActivity.select++
-                if (MainActivity.select==16){
+                select++
+                if (select==16){
 //                    MainActivity.select=0
                     MainActivity.cm++
                 }
@@ -88,7 +87,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
                     Collections.shuffle(MainActivity.ZC)
                     Collections.shuffle(MainActivity.CM)
                 }
-                if(MainActivity.block==2&&MainActivity.to ==3&& MainActivity.zc ==4&& MainActivity.cm ==1)
+                if(block==2&&MainActivity.to ==3&& MainActivity.zc ==4&& MainActivity.cm ==1)
                     Toast.makeText(context, "This is the last ont!", Toast.LENGTH_SHORT).show()
                 MainActivity.toOpr = MainActivity.TO[MainActivity.to]
                 MainActivity.zcOpr = MainActivity.ZC[MainActivity.zc]
@@ -141,26 +140,26 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
         layout.translationX = MainActivity.transX-300
         layout.translationY = MainActivity.transY-300
         val layoutButtons: LinearLayout = findViewById(R.id.buttons)//重新设置按钮的相对位置
-        val paramsButtons: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(100.toPxInt(),100.toPxInt())
+        val paramsButtons: LayoutParams = LayoutParams(100.toPxInt(),100.toPxInt())
 
         val kind = (1..8).random()
         when(kind){//选择按钮更新位置
-            1 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_LEFT)//左上角
-            2 -> paramsButtons.addRule(RelativeLayout.CENTER_HORIZONTAL)//上边正中
-            3 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)//右上角
-            4 -> paramsButtons.addRule(RelativeLayout.CENTER_VERTICAL)//左边正中
+            1 -> paramsButtons.addRule(ALIGN_PARENT_LEFT)//左上角
+            2 -> paramsButtons.addRule(CENTER_HORIZONTAL)//上边正中
+            3 -> paramsButtons.addRule(ALIGN_PARENT_RIGHT)//右上角
+            4 -> paramsButtons.addRule(CENTER_VERTICAL)//左边正中
             5 -> {
-                paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)//右边正中
-                paramsButtons.addRule(RelativeLayout.CENTER_VERTICAL)
+                paramsButtons.addRule(ALIGN_PARENT_RIGHT)//右边正中
+                paramsButtons.addRule(CENTER_VERTICAL)
             }
-            6 -> paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)//左下角
+            6 -> paramsButtons.addRule(ALIGN_PARENT_BOTTOM)//左下角
             7 -> {
-                paramsButtons.addRule(RelativeLayout.CENTER_HORIZONTAL)//下边正中
-                paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+                paramsButtons.addRule(CENTER_HORIZONTAL)//下边正中
+                paramsButtons.addRule(ALIGN_PARENT_BOTTOM)
             }
             8 -> {
-                paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)//右下角
-                paramsButtons.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+                paramsButtons.addRule(ALIGN_PARENT_BOTTOM)//右下角
+                paramsButtons.addRule(ALIGN_PARENT_RIGHT)
             }
         }
         layoutButtons.layoutParams=paramsButtons//重绘
@@ -346,7 +345,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
     }
     fun initSaveDataMethod() {
         dataList = LinkedBlockingDeque()
-        val excelPath = getExcelDir() + File.separator + "User_" + subjectInfo + "_" + 0 + ".xls"
+        val excelPath = getExcelDir() + File.separator + "User_" + "data" + "_" + 0 + ".xls"
         saveToExcel = SaveToExcel(excelPath)
         runnable = SaveDataRunnable(saveToExcel, dataList)
         Thread(runnable).start()
@@ -354,7 +353,7 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
     fun getExcelDir(): String {
         //SD卡指定文件夹
         val sdcardPath = context.externalCacheDir.toString()
-        val dir = File(sdcardPath + File.separator + "OneHand-Excel" + File.separator + "User_" + subjectInfo)
+        val dir = File(sdcardPath + File.separator + "OneHand-Excel" + File.separator + "User_" + "data")
         if (dir.exists()) {
             return dir.toString()
         } else {
@@ -370,7 +369,8 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
 
                     dataList.put(
                         ExperimentData(
-                            "1",
+                            subjectID.toDouble(),
+                            (block + 1).toDouble(),
                             0,
                             MainActivity.toOpr.toDouble(),
                             MainActivity.zcOpr.toDouble(),
@@ -387,7 +387,9 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             1 -> //添加一条记录到List
                 try {
                     dataList.put(
-                        ExperimentData("1",
+                        ExperimentData(
+                            subjectID.toDouble(),
+                            (block + 1).toDouble(),
                             0,
                             MainActivity.toOpr.toDouble(),
                             MainActivity.zcOpr.toDouble(),
@@ -404,7 +406,9 @@ class ChangeableLayout(context: Context, attrs: AttributeSet): RelativeLayout(co
             2 ->
                 try {
                     dataList.put(
-                        ExperimentData("1",
+                        ExperimentData(
+                            subjectID.toDouble(),
+                            (block + 1).toDouble(),
                             0,
                             MainActivity.to.toDouble(),
                             MainActivity.zc.toDouble(),
